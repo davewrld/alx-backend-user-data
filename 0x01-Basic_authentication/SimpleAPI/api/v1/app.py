@@ -2,6 +2,7 @@
 """
 Route module for the API
 """
+from api.v1.views.index import bp as views_bp
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -14,11 +15,22 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
+@app.errorhandler(401)
+def unauthorized_error(error) -> str:
+    """error handler for 401 Unauthorized erroer
+    Returns:JSON response with 401 status code
+    """
+    return jsonify({"error": "Unauthorized"}), 401
+
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
+
+
+app.register_blueprint(views_bp)
 
 
 if __name__ == "__main__":

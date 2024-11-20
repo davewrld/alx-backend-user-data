@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
 """ Module of Index views
 """
+from flask import Blueprint
 from flask import jsonify, abort
 from api.v1.views import app_views
+
+bp = Blueprint('views', __name__)
+
+
+@bp.route('/api/v1/unauthorized', methods=['GET'])
+def unauthorized():
+    """Will trigger the 401 error handler"""
+    abort(401)
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
