@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import re
+from typing import List
 
 """Function that returns the message obfuscated"""
 
-def filter_datum(fields: str, redaction: str, message: str, separator: str) -> str:
+def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
     pattern = '|'.join(f"{field}=.*?(?={separator}|$)" for field in fields)
     return re.sub(pattern, lambda m: f"{m.group().split('=')[0]}={redaction}", message)
